@@ -2,6 +2,8 @@
 
 Esta é a documentação da aplicações de Pessoas, que fornece operações CRUD (Criar, Ler, Atualizar e Excluir) para manipulação de informações de pessoas.
 
+[Manual Técnico](https://hackmd.io/@jujuguete001/BkOMWw7-p)
+
 # Descrição da Aplicação
 
 Esta aplicação consiste em um sistema de gerenciamento de informações de pessoas. Ela é composta por dois componentes principais: um frontend e um backend.
