@@ -31,6 +31,7 @@ public class PersonController {
 
     @PutMapping("/{id}")
     public Person update(@PathVariable Long id, @RequestBody Person newPerson) {
+        System.out.println(newPerson);
         return repository.findById(id)
                 .map(person -> {
                     person.setName(newPerson.getName());

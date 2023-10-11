@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD de Pessoas - Salvar</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Adicionar Pessoa</h1>
+<form id="person-form">
+    <input type="hidden" id="person-id">
+    <input type="text" id="person-name" placeholder="Nome">
+    <input type="text" id="person-email" placeholder="Email">
+    <button type="submit">Salvar</button>
+</form>
+<div class="button-container">
+<a href="index.html">Voltar para a lista de pessoas</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const form = document.getElementById('person-form');
+    const nameInput = document.getElementById('person-name');
+    const emailInput = document.getElementById('person-email');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const person = {
+            name: nameInput.value,
+            email: emailInput.value
+        };
+
+        axios.post('http://localhost:8080/api/people', person).then(() => {
+            nameInput.value = "";
+            emailInput.value = "";
+            loadPeople();
+            form.reset();
+        });
+    });
+</script>
+</body>
+</html>

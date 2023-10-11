@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD de Pessoas - Editar</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Editar Pessoa</h1>
+<form id="person-form">
+    <input type="hidden" id="person-id">
+    <input type="text" id="person-name" placeholder="Nome">
+    <input type="text" id="person-email" placeholder="Email">
+    <button type="submit">Salvar Alterações</button>
+</form>
+<div class="button-container">
+    <a href="index.html">Voltar para a lista de pessoas</a>
+    <a href="add-person.html">Adicionar Pessoa</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const form = document.getElementById('person-form');
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    const nameInput = document.getElementById('person-name');
+    const emailInput = document.getElementById('person-email');
+
+    function loadEditPeople() {
+        axios.get('http://localhost:8080/api/people/'+id).then(function(response) {
+            nameInput.value = response.data.name;
+            emailInput.value = response.data.email;
+        });
+    }
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const person = {
+            name: nameInput.value,
+            email: emailInput.value
+        };
+
+        axios.put('http://localhost:8080/api/people/'+id, person).then(() => {
+            nameInput.value = "";
+            emailInput.value = "";
+            loadPeople();
+            form.reset();
+        });
+    });
+
+    loadEditPeople()
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD de Pessoas - Lista de Pessoas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Lista de Pessoas</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody id="person-list">
+    <!-- As pessoas serão listadas aqui via JavaScript -->
+    </tbody>
+</table>
+<div class="button-container">
+    <a href="add-person.html">Adicionar Pessoa</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    function loadPeople() {
+        axios.get('http://localhost:8080/api/people').then(function(response) {
+            const people = response.data;
+            const personList = document.getElementById('person-list');
+            let rows = '';
+            for (let i = 0; i < people.length; i++) {
+                rows += `
+                        <tr>
+                            <td>${people[i].name}</td>
+                            <td>${people[i].email}</td>
+                            <td>
+                                <a href="edit-person.html?id=${people[i].id}">Editar</a>
+                                <a href="#" data-id="${people[i].id}" class="delete-button">Excluir</a>
+                            </td>
+                        </tr>
+                    `;
+            }
+            personList.innerHTML = rows;
+        });
+    }
+
+    // Exemplo de manipulação de evento para exclusão de pessoa
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('delete-button')) {
+            const id = event.target.dataset.id;
+            if (confirm("Tem certeza de que deseja excluir esta pessoa?")) {
+                axios.delete('http://localhost:8080/api/people/' + id).then(loadPeople);
+            }
+        }
+    });
+
+    // Carregando a lista de pessoas quando a página carrega
+    loadPeople();
+</script>
+</body>
+</html>
